@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clipboard Alchemist</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div id="app" class="app" data-mode="light" data-accent="lavender">
+      <header class="header">
+        <div class="brand">
+          <span class="mascot" id="mascot" aria-hidden="true">
+            <img id="mascotImg" class="mascot-img" alt="" />
+          </span>
+          <div class="brand-text">
+            <h1>Clipboard Alchemist</h1>
+            <p class="tagline">Pull out what you need</p>
+          </div>
+        </div>
+        <button type="button" class="icon-btn" id="btnSettings" title="Settings" aria-label="Settings">
+          ✦
+        </button>
+      </header>
+
+      <nav class="tabs" role="tablist" aria-label="Main">
+        <button type="button" class="tab is-active" data-tab="home" role="tab" aria-selected="true">Home</button>
+        <button type="button" class="tab" data-tab="snippets" role="tab" aria-selected="false">Saved</button>
+        <button type="button" class="tab" data-tab="history" role="tab" aria-selected="false">History</button>
+      </nav>
+
+      <main class="main">
+        <section class="panel is-active" id="panel-home" role="tabpanel">
+          <p class="hint" id="statusHint">Paste or type some text, then choose an action below.</p>
+
+          <label class="field-label" for="inputText">Your text</label>
+          <textarea
+            id="inputText"
+            class="text-area text-area-large"
+            rows="6"
+            spellcheck="true"
+            placeholder="Paste a note, email, or message here…"
+          ></textarea>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary" id="btnPaste">Paste</button>
+            <button type="button" class="btn btn-ghost" id="btnClear">Clear</button>
+          </div>
+
+          <p class="section-label">Actions</p>
+          <div class="action-grid" id="actionGrid"></div>
+
+          <div class="results-card">
+            <div class="results-head">
+              <span id="resultsTitle">Results</span>
+              <span class="results-note" id="resultsNote"></span>
+            </div>
+            <pre class="results-body" id="resultsBody"></pre>
+            <div class="btn-row results-actions">
+              <button type="button" class="btn btn-primary" id="btnCopyResult">Copy Results</button>
+              <button type="button" class="btn btn-secondary" id="btnSaveSnippet">Save</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-snippets" role="tabpanel" hidden>
+          <div class="toolbar">
+            <input
+              type="search"
+              id="snippetSearch"
+              class="search-input"
+              placeholder="Search saved items…"
+              autocomplete="off"
+            />
+          </div>
+          <div id="snippetList" class="list"></div>
+          <p class="empty-hint" id="snippetEmpty" hidden>
+            Nothing saved yet. Use Save on the Home tab.
+          </p>
+        </section>
+
+        <section class="panel" id="panel-history" role="tabpanel" hidden>
+          <div class="toolbar">
+            <input
+              type="search"
+              id="historySearch"
+              class="search-input"
+              placeholder="Search history…"
+              autocomplete="off"
+            />
+            <button type="button" class="btn btn-ghost btn-sm" id="btnClearHistory">Clear</button>
+          </div>
+          <div id="historyList" class="list"></div>
+          <p class="empty-hint" id="historyEmpty" hidden>
+            No history yet. History only saves when you run an action here.
+          </p>
+        </section>
+
+        <section class="panel" id="panel-settings" role="tabpanel" hidden>
+          <h2 class="panel-title">Settings</h2>
+
+          <label class="field-label">Light / Dark</label>
+          <div class="mode-row" id="modeRow"></div>
+
+          <label class="field-label">Accent color</label>
+          <div class="theme-grid" id="themeGrid"></div>
+
+          <label class="field-label" for="accentPicker">Custom accent</label>
+          <div class="accent-row">
+            <input type="color" id="accentPicker" value="#8b6bb8" />
+            <button type="button" class="btn btn-secondary btn-sm" id="btnApplyAccent">Apply</button>
+          </div>
+
+          <label class="field-label">Bubble icon</label>
+          <div class="icon-choice-grid" id="iconChoiceGrid"></div>
+
+          <label class="toggle-row">
+            <input type="checkbox" id="prefFloat" checked />
+            <span>Show draggable bubble on webpages</span>
+          </label>
+
+          <button type="button" class="btn btn-secondary" id="btnOpenWindow">
+            Open as a free window
+          </button>
+          <p class="setting-help">
+            The bubble stays on regular websites (including Google). A free window can sit anywhere on your desktop.
+          </p>
+
+          <label class="toggle-row">
+            <input type="checkbox" id="prefConfirmClear" checked />
+            <span>Ask before clearing</span>
+          </label>
+
+          <p class="privacy-note">
+            Everything stays on this computer. No accounts, tracking, or internet required.
+          </p>
+
+          <button type="button" class="btn btn-secondary" id="btnBackHome">Back to Home</button>
+        </section>
+      </main>
+
+      <div class="modal" id="saveModal" hidden>
+        <div class="modal-card" role="dialog" aria-labelledby="saveModalTitle">
+          <h3 id="saveModalTitle">Save for later</h3>
+          <label class="field-label" for="snippetTitle">Name</label>
+          <input type="text" id="snippetTitle" class="text-input" maxlength="80" placeholder="Quick note" />
+          <label class="field-label">Color</label>
+          <div class="color-dots" id="snippetColors"></div>
+          <label class="field-label">Emoji</label>
+          <div class="emoji-picks" id="snippetEmojis"></div>
+          <div class="btn-row modal-actions">
+            <button type="button" class="btn btn-ghost" id="btnCancelSave">Cancel</button>
+            <button type="button" class="btn btn-primary" id="btnConfirmSave">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    </div>
+
+    <script src="js/detect.js"></script>
+    <script src="js/transforms.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

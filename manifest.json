@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "Clipboard Alchemist",
+  "short_name": "Alchemist",
+  "version": "1.2.1",
+  "description": "Friendly local clipboard helper: pull out emails, phone numbers, links, and numbers — or clean messy text. Private and offline.",
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "clipboardWrite",
+    "clipboardRead",
+    "windows",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Clipboard Alchemist",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content/float.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "popup.html",
+        "popup.css",
+        "popup.js",
+        "js/*",
+        "content/float.css",
+        "icons/*",
+        "icons/mascots/*"
+      ],
+      "matches": ["http://*/*", "https://*/*"]
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Open Clipboard Alchemist"
+    }
+  }
+}
