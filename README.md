@@ -28,6 +28,28 @@ Also included:
 - **Five glossy icon choices** (Strawberry, Navy, Sky Blue, Watermelon, Aqua Fish)
 - **Open as a free window** — a real desktop window you can park anywhere
 
+## Screenshots
+
+### Home and settings
+
+![Clipboard Alchemist home popup and settings window](screenshots/home-and-settings.png)
+
+### Draggable bubble
+
+![Clipboard Alchemist draggable bubble](screenshots/floating-bubble.png)
+
+### Settings
+
+![Clipboard Alchemist settings](screenshots/settings.png)
+
+### History
+
+![Clipboard Alchemist history](screenshots/history.png)
+
+### Saved items
+
+![Clipboard Alchemist saved items](screenshots/saved-items.png)
+
 ### Can the toolbar popup itself stay on every tab?
 
 No — Chrome closes the toolbar popup when you leave it. The closest reliable options (both included) are:
